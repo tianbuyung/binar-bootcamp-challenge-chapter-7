@@ -1,0 +1,41 @@
+{
+  "name": "challenge-chapter-7",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "DEBUG=challenge-chapter-7:* node ./bin/www",
+    "dev": "DEBUG=challenge-chapter-7:* nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/binar-bootcamp-fsw23/challenge-chapter-7.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "api",
+    "postgresql",
+    "sequelize"
+  ],
+  "author": "Septian Maulana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/binar-bootcamp-fsw23/challenge-chapter-7/issues"
+  },
+  "homepage": "https://gitlab.com/binar-bootcamp-fsw23/challenge-chapter-7#readme",
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.1",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "pg": "^8.7.3",
+    "sequelize": "^6.21.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "sequelize-cli": "^6.4.1"
+  }
+}

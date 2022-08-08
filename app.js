@@ -8,6 +8,7 @@ const logger = require("morgan");
 
 const indexRouter = require("./design-pattern/routes/index");
 const usersRouter = require("./design-pattern/routes/users");
+const usersApiRouter = require("./design-pattern/routes/usersApi");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/api/users", usersApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -37,7 +39,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render("pages/error");
 });
 
 module.exports = app;

@@ -8,26 +8,21 @@ module.exports = {
         type: Sequelize.INTEGER,
         unique: true,
       },
-      user_id_player_one: {
-        type: Sequelize.UUID,
-        references: {
-          model: "user_games",
-          key: "user_id",
-          as: "userId",
-        },
-      },
-      user_id_player_two: {
-        type: Sequelize.UUID,
-        references: {
-          model: "user_games",
-          key: "user_id",
-          as: "userId",
-        },
-      },
       room_id: {
         primaryKey: true,
         type: Sequelize.STRING,
         unique: true,
+      },
+      user_id_owner: {
+        type: Sequelize.UUID,
+        references: {
+          model: "user_games",
+          key: "user_id",
+          as: "userId",
+        },
+      },
+      user_id_challenger: {
+        type: Sequelize.UUID,
       },
       deleted_at: {
         type: Sequelize.DATE,

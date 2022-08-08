@@ -9,6 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.UserGameRoom.belongsTo(models.UserGame, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
+      models.UserGameRoom.hasMany(models.UserGameHistory, {
+        foreignKey: "room_id",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   }
   UserGameRoom.init(
@@ -20,17 +30,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         unique: true,
       },
-      userIdPlayerOne: {
-        type: DataTypes.UUID,
-        field: "user_id_player_one",
-      },
-      userIdPlayerOne: {
-        type: DataTypes.UUID,
-        field: "user_id_player_two",
-      },
       roomId: {
         type: DataTypes.STRING,
         field: "room_id",
+      },
+      userIdOwner: {
+        type: DataTypes.UUID,
+        field: "user_id_owner",
+      },
+      userIdChallenger: {
+        type: DataTypes.UUID,
+        field: "user_id_challenger",
       },
       deletedAt: {
         type: DataTypes.DATE,

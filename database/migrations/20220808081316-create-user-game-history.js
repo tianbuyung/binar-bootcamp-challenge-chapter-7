@@ -8,22 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      user_id_player_one: {
-        type: Sequelize.UUID,
-        references: {
-          model: "user_games",
-          key: "user_id",
-          as: "userId",
-        },
-      },
-      user_id_player_two: {
-        type: Sequelize.UUID,
-        references: {
-          model: "user_games",
-          key: "user_id",
-          as: "userId",
-        },
-      },
       room_id: {
         type: Sequelize.STRING,
         references: {
@@ -31,21 +15,27 @@ module.exports = {
           key: "room_id",
           as: "roomId",
         },
+        allowNull: false,
       },
-      player_one_choice: {
+      user_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+      },
+      player_choice: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      player_one_score: {
+      player_step: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      player_two_choice: {
+      result: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      player_two_score: {
+      player_score: {
         type: Sequelize.INTEGER,
-      },
-      who_is_win: {
-        type: Sequelize.STRING,
+        allowNull: false,
       },
       deleted_at: {
         type: Sequelize.DATE,

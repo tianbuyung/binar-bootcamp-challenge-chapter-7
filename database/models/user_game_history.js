@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+      models.UserGameHistory.belongsTo(models.UserGameRoom, {
+        foreignKey: "room_id",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   }
   UserGameHistory.init(
@@ -24,37 +29,28 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      userIdPlayerOne: {
-        type: DataTypes.UUID,
-        field: "user_id_player_one",
-      },
-      userIdPlayerOne: {
-        type: DataTypes.UUID,
-        field: "user_id_player_two",
-      },
       roomId: {
         type: DataTypes.STRING,
         field: "room_id",
       },
-      playerOneChoice: {
-        type: DataTypes.STRING,
-        field: "player_one_choice",
+      userId: {
+        type: DataTypes.UUID,
+        field: "user_id",
       },
-      playerOneScore: {
+      playerChoice: {
+        type: DataTypes.STRING,
+        field: "player_choice",
+      },
+      playerStep: {
+        type: DataTypes.STRING,
+        field: "player_step",
+      },
+      result: {
+        type: DataTypes.STRING,
+      },
+      playerScore: {
         type: DataTypes.INTEGER,
-        field: "player_one_score",
-      },
-      playerTwoChoice: {
-        type: DataTypes.STRING,
-        field: "player_two_choice",
-      },
-      playerTwoScore: {
-        type: DataTypes.INTEGER,
-        field: "player_two_score",
-      },
-      whoIsWin: {
-        type: DataTypes.STRING,
-        field: "who_is_win",
+        field: "player_score",
       },
       deletedAt: {
         type: DataTypes.DATE,

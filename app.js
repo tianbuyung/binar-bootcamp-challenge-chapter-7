@@ -7,8 +7,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./design-pattern/routes/index");
-const usersRouter = require("./design-pattern/routes/users");
-const usersApiRouter = require("./design-pattern/routes/usersApi");
+const usersRouter = require("./design-pattern/routes/user");
+const usersApiRouter = require("./design-pattern/routes/userApi");
 
 const app = express();
 

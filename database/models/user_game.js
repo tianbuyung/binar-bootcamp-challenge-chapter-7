@@ -45,14 +45,28 @@ module.exports = (sequelize, DataTypes) => {
       username: {
         allowNull: false,
         type: DataTypes.STRING,
-        unique: true,
         notNull: {
           msg: "Please enter your username",
         },
+        unique: true,
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        notNull: {
+          msg: "Please enter your email",
+        },
+        validate: {
+          isEmail: true,
+        },
+        unique: true,
       },
       password: {
         allowNull: false,
         type: DataTypes.STRING(60),
+        notNull: {
+          msg: "Please enter your password",
+        },
         validate: {
           is: /^\$2[ayb]\$.{56}$/i,
         },
@@ -61,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
         validate: {
-          notIn: [["admin", "player"]],
+          isIn: [["admin", "player"]],
         },
       },
       deletedAt: {

@@ -17,14 +17,28 @@ module.exports = {
       username: {
         allowNull: false,
         type: Sequelize.STRING,
-        unique: true,
         notNull: {
           msg: "Please enter your username",
         },
+        unique: true,
+      },
+      email: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        notNull: {
+          msg: "Please enter your email",
+        },
+        validate: {
+          isEmail: true,
+        },
+        unique: true,
       },
       password: {
         allowNull: false,
         type: Sequelize.STRING(60),
+        notNull: {
+          msg: "Please enter your password",
+        },
         validate: {
           is: /^\$2[ayb]\$.{56}$/i,
         },

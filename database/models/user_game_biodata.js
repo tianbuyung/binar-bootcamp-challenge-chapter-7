@@ -33,12 +33,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       firstName: { type: DataTypes.STRING, field: "first_name" },
       lastName: { type: DataTypes.STRING, field: "last_name" },
-      email: {
-        type: DataTypes.STRING,
-        validate: {
-          isEmail: true,
-        },
-      },
       address: DataTypes.STRING,
       phoneNumber: { type: DataTypes.STRING, field: "phone_number" },
       bio: DataTypes.STRING,

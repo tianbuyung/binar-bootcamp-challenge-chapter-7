@@ -1,8 +1,8 @@
+const encrypt = require("bcryptjs");
+const validator = require("validator");
+
 const UserRepository = require("../repositories/userRepository");
 const userRepository = new UserRepository();
-
-const validator = require("validator");
-const encrypt = require("bcryptjs");
 
 class UserService {
   async #encrypt(password, saltRounds) {

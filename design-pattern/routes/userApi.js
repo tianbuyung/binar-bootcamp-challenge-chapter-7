@@ -6,13 +6,6 @@ const passport = require("../lib/passport");
 
 /* Register new user. */
 router.post("/register", userApiController.userRegister);
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
+router.post("/login", userApiController.login);
 
 module.exports = router;

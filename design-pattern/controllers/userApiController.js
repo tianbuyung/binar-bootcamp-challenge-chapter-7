@@ -16,19 +16,11 @@ class UserApiController {
       });
     }
   }
-  // async userLogin(req, res) {
-  //   const payload = req.body;
-  //   const [err, user] = await userService.userLogin(payload);
-  //   if (err) {
-  //     res.status(400).json({
-  //       message: err,
-  //     });
-  //   } else {
-  //     res.status(200).json({
-  //       message: user,
-  //     });
-  //   }
-  // }
+  login = passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+  });
 }
 
 module.exports = UserApiController;

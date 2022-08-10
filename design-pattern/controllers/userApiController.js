@@ -1,10 +1,11 @@
 const UserService = require("../services/userService");
 const userService = new UserService();
+const passport = require("../lib/passport");
 
 class UserApiController {
-  async createUserGame(req, res) {
+  async userRegister(req, res) {
     const payload = req.body;
-    const [err, user] = await userService.userFindOrCreate(payload);
+    const [err, user] = await userService.userRegister(payload);
     if (err) {
       res.status(400).json({
         message: err,
@@ -15,6 +16,19 @@ class UserApiController {
       });
     }
   }
+  // async userLogin(req, res) {
+  //   const payload = req.body;
+  //   const [err, user] = await userService.userLogin(payload);
+  //   if (err) {
+  //     res.status(400).json({
+  //       message: err,
+  //     });
+  //   } else {
+  //     res.status(200).json({
+  //       message: user,
+  //     });
+  //   }
+  // }
 }
 
 module.exports = UserApiController;

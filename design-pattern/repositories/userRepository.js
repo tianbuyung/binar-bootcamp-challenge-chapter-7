@@ -27,6 +27,31 @@ class UserRepository {
       return [err, null];
     }
   }
+  async findOne(options) {
+    let err = null;
+    try {
+      let data = await UserGame.findOne(options);
+      if (data) {
+        return [err, data];
+      } else {
+        err = "Data is not found";
+        return [err, null];
+      }
+    } catch (error) {
+      err = error;
+      return [err, null];
+    }
+  }
+  async findByPk(payload) {
+    let err = null;
+    try {
+      let data = await UserGame.findByPk(payload);
+      return [err, data];
+    } catch (error) {
+      err = error;
+      return [err, null];
+    }
+  }
 }
 
 module.exports = UserRepository;

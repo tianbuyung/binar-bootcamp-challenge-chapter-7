@@ -1,8 +1,11 @@
 const encrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const validator = require("validator");
 
 const UserRepository = require("../repositories/userRepository");
 const userRepository = new UserRepository();
+
+const secretKey = process.env.JWT_SECRET_KEY || "Secret_Key";
 
 class UserService {
   async #encrypt(password, saltRounds) {
@@ -79,12 +82,46 @@ class UserService {
         err = "Password does not match";
         return [err, null];
       } else {
-        return [err, isUserFound];
+        try {
+          let token = jwt.sign(
+            {
+              userId: isUserFound.userId,
+              username: isUserFound.username,
+              email: isUserFound.email,
+              role: isUserFound.role,
+            },
+            secretKey,
+            { expiresIn: 60 }
+          );
+          return [err, token];
+        } catch (error) {
+          return [error, null];
+        }
       }
     }
   }
   async userFindByPK(payload) {
     return await userRepository.findByPk(payload);
+  }
+  async usersFindAndCountAll(query) {
+    const limit = Number(query.limit) || 5;
+    const page = Number(query.page) || 1;
+    const offset = (page - 1) * limit;
+    const options = {
+      order: ["id"],
+      limit,
+      offset,
+      attributes: [
+        "userId",
+        "username",
+        "email",
+        "role",
+        "createdAt",
+        "updatedAt",
+      ],
+    };
+    const users = await userRepository.findAndCountAll(options);
+    return [users, limit, page];
   }
 }
 

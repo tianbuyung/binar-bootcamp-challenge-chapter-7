@@ -52,6 +52,16 @@ class UserRepository {
       return [err, null];
     }
   }
+  async findAndCountAll(options) {
+    let err = null;
+    try {
+      const data = await UserGame.findAndCountAll(options);
+      return [err, data];
+    } catch (error) {
+      err = error;
+      return [err, null];
+    }
+  }
 }
 
 module.exports = UserRepository;

@@ -25,7 +25,7 @@ class AuthController {
     } else {
       res.status(200).json({
         message: "Successfully login",
-        token,
+        token: `Bearer ${token}`,
       });
     }
   }

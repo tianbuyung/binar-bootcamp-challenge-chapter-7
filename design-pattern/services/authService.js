@@ -86,7 +86,7 @@ class AuthService {
               role: isUserFound.role,
             },
             secretKey,
-            { expiresIn: 60 }
+            { expiresIn: 60 * 60 }
           );
           return [err, token];
         } catch (error) {

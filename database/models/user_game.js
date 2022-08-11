@@ -25,6 +25,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+      models.UserGame.hasMany(models.UserGameRoom, {
+        foreignKey: "user_id_challenger",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   }
   UserGame.init(

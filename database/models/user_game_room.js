@@ -10,7 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.UserGameRoom.belongsTo(models.UserGame, {
-        foreignKey: "user_id",
+        foreignKey: "user_id_owner",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
+      models.UserGameRoom.belongsTo(models.UserGame, {
+        foreignKey: "user_id_challenger",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
@@ -34,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         field: "room_id",
       },
+      roomName: {
+        type: DataTypes.STRING,
+        field: "room_name",
+      },
       userIdOwner: {
         type: DataTypes.UUID,
         field: "user_id_owner",
@@ -41,6 +50,10 @@ module.exports = (sequelize, DataTypes) => {
       userIdChallenger: {
         type: DataTypes.UUID,
         field: "user_id_challenger",
+      },
+      gameStatus: {
+        type: DataTypes.BOOLEAN,
+        field: "game_status",
       },
       deletedAt: {
         type: DataTypes.DATE,
@@ -60,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "UserGameRoom",
-      tableName: "user_game_room",
+      tableName: "user_game_rooms",
       paranoid: true,
     }
   );

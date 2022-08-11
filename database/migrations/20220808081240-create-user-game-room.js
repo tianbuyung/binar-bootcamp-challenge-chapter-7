@@ -23,6 +23,11 @@ module.exports = {
       },
       user_id_challenger: {
         type: Sequelize.UUID,
+        references: {
+          model: "user_games",
+          key: "user_id",
+          as: "userId",
+        },
       },
       deleted_at: {
         type: Sequelize.DATE,

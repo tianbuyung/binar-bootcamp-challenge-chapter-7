@@ -1,7 +1,7 @@
 const UserService = require("../services/userService");
 const userService = new UserService();
 
-class UserApiController {
+class UserController {
   async getAllUsers(req, res) {
     const query = req.query;
     const [users, limit, page] = await userService.usersFindAndCountAll(query);
@@ -21,4 +21,4 @@ class UserApiController {
   }
 }
 
-module.exports = UserApiController;
+module.exports = UserController;

@@ -11,8 +11,8 @@ const passport = require("./design-pattern/lib/passport");
 
 const indexRouter = require("./design-pattern/routes/indexRoute");
 const usersRouter = require("./design-pattern/routes/userRoute");
-const usersApiRouter = require("./design-pattern/routes/userApiRoute");
 const authRouter = require("./design-pattern/routes/authRoute");
+const gameRoute = require("./design-pattern/routes/gameRoute");
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
-app.use("/api/users", usersApiRouter);
+app.use("/game", gameRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

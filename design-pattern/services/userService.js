@@ -1,15 +1,18 @@
-const encrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const validator = require("validator");
-
 const UserRepository = require("../repositories/userRepository");
 const userRepository = new UserRepository();
 
-const secretKey = process.env.JWT_SECRET_KEY || "Secret_Key";
-
 class UserService {
   async userFindOrCreate(payload) {
-    return await userRepository.findOrCreate(payload);
+    const { username, email, password, role } = payload;
+    const options = {
+      where: {
+        username,
+        email,
+        password,
+        role,
+      },
+    };
+    return await userRepository.findOrCreate(options);
   }
   async userFindByPK(payload) {
     return await userRepository.findByPk(payload);

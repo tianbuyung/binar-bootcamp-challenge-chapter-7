@@ -6,6 +6,6 @@ const restrict = require("../middlewares/restrict");
 
 router.post("/create", restrict, gameController.createRoom);
 router.post("/join", restrict, gameController.joinRoom);
-router.post("/fight", restrict, gameController.fightRoom);
+router.post("/fight/:roomId", restrict, gameController.fightRoom);
 
 module.exports = router;

@@ -1,14 +1,15 @@
 const Model = require("../../database/models");
-const { UserGameRoom } = Model;
+const { UserGameHistory } = Model;
 
-class GameRoomRepository {
+class FightRepository {
   async create(options) {
     let err = null;
     try {
-      let created = await UserGameRoom.create(options);
+      let created = await UserGameHistory.create(options);
       return [err, created];
     } catch (error) {
-      err = "The room is already exist!";
+      console.log(error);
+      err = error.message;
       return [err, null];
     }
   }
@@ -16,7 +17,7 @@ class GameRoomRepository {
     let err = null;
     console.log(options);
     try {
-      let data = await UserGameRoom.findAll(options);
+      let data = await UserGameHistory.findAll(options);
       if (data) {
         return [err, data];
       } else {
@@ -31,11 +32,11 @@ class GameRoomRepository {
   async findOne(options) {
     let err = null;
     try {
-      let data = await UserGameRoom.findOne(options);
+      let data = await UserGameHistory.findOne(options);
       if (data) {
         return [err, data];
       } else {
-        err = "The room is not found";
+        err = "The room history is not found";
         return [err, null];
       }
     } catch (error) {
@@ -46,7 +47,7 @@ class GameRoomRepository {
   async findByPk(options) {
     let err = null;
     try {
-      let data = await UserGameRoom.findByPk(options);
+      let data = await UserGameHistory.findByPk(options);
       return [err, data];
     } catch (error) {
       err = error;
@@ -56,7 +57,17 @@ class GameRoomRepository {
   async findAndCountAll(options) {
     let err = null;
     try {
-      const data = await UserGameRoom.findAndCountAll(options);
+      const data = await UserGameHistory.findAndCountAll(options);
+      return [err, data];
+    } catch (error) {
+      err = error;
+      return [err, null];
+    }
+  }
+  async countHistory(options) {
+    let err = null;
+    try {
+      const data = await UserGameHistory.count(options);
       return [err, data];
     } catch (error) {
       err = error;
@@ -65,4 +76,4 @@ class GameRoomRepository {
   }
 }
 
-module.exports = GameRoomRepository;
+module.exports = FightRepository;

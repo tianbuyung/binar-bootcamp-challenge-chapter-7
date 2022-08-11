@@ -35,12 +35,32 @@ class GameController {
       });
     } else {
       res.status(200).json({
-        message: "Successfully join room",
+        message: "Successfully join room and move to fight room, please!",
         roomId: room.roomId,
       });
     }
   }
-  async fightRoom() {}
+  async fightRoom(req, res) {
+    const { userId } = req.user[1];
+    const { roomId } = req.params;
+    const { playerChoice } = req.body;
+    const payload = {
+      userId,
+      roomId,
+      playerChoice,
+    };
+    const [err, result] = await gameService.fightRoom(payload);
+    if (err) {
+      res.status(400).json({
+        message: err,
+      });
+    } else {
+      res.status(200).json({
+        message: "Successfully add your choice.",
+        roomId: result,
+      });
+    }
+  }
 }
 
 module.exports = GameController;

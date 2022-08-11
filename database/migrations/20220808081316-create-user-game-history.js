@@ -31,11 +31,9 @@ module.exports = {
       },
       result: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       player_score: {
         type: Sequelize.INTEGER,
-        allowNull: false,
       },
       deleted_at: {
         type: Sequelize.DATE,

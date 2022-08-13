@@ -1,7 +1,7 @@
-const GameService = require("../services/gameService");
-const gameService = new GameService();
+const RoomService = require("../services/roomService");
+const roomService = new RoomService();
 
-class GameController {
+class RoomController {
   async createRoom(req, res) {
     const { userId } = req.user[1];
     const { roomName } = req.body;
@@ -9,7 +9,7 @@ class GameController {
       userId,
       roomName,
     };
-    const [err, room] = await gameService.createRoom(payload);
+    const [err, room] = await roomService.createRoom(payload);
     if (err) {
       res.status(400).json({
         message: err,
@@ -28,7 +28,7 @@ class GameController {
       userId,
       roomId,
     };
-    const [err, room] = await gameService.joinRoom(payload);
+    const [err, room] = await roomService.joinRoom(payload);
     if (err) {
       res.status(400).json({
         message: err,
@@ -49,7 +49,7 @@ class GameController {
       roomId,
       playerChoice,
     };
-    const [err, result] = await gameService.fightRoom(payload);
+    const [err, result] = await roomService.fightRoom(payload);
     if (err) {
       res.status(400).json({
         message: err,
@@ -63,4 +63,4 @@ class GameController {
   }
 }
 
-module.exports = GameController;
+module.exports = RoomController;

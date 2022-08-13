@@ -8,14 +8,12 @@ class FightRepository {
       let created = await UserGameHistory.create(options);
       return [err, created];
     } catch (error) {
-      console.log(error);
       err = error.message;
       return [err, null];
     }
   }
   async findAll(options) {
     let err = null;
-    console.log(options);
     try {
       let data = await UserGameHistory.findAll(options);
       if (data) {
@@ -36,7 +34,7 @@ class FightRepository {
       if (data) {
         return [err, data];
       } else {
-        err = "The room history is not found";
+        err = "The room is not found";
         return [err, null];
       }
     } catch (error) {

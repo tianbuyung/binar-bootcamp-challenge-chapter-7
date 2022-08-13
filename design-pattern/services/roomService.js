@@ -1,10 +1,10 @@
-const GameRepository = require("../repositories/gameRepository");
-const gameRepository = new GameRepository();
+const RoomRepository = require("../repositories/roomRepository");
+const roomRepository = new RoomRepository();
 const FightRepository = require("../repositories/fightRepository");
 const fightRepository = new FightRepository();
 const { Op } = require("sequelize");
 
-class GameService {
+class RoomService {
   async #generateString(digit) {
     const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -23,7 +23,7 @@ class GameService {
         ],
       },
     };
-    let [err, doesPlayerHaveRoom] = await gameRepository.findOne(options);
+    let [err, doesPlayerHaveRoom] = await roomRepository.findOne(options);
     if (doesPlayerHaveRoom) {
       err = `You already have a room with name=${doesPlayerHaveRoom.roomName} and id=${doesPlayerHaveRoom.roomId}`;
       return [err, null];
@@ -60,6 +60,16 @@ class GameService {
     if (result == "lose") return "win";
     return "draw";
   }
+  async #getPlayerStep(count) {
+    if (count > 3) {
+      return 3;
+    }
+    if (count > 1) {
+      return 2;
+    }
+    return 1;
+  }
+
   async createRoom(payload) {
     const { userId } = payload;
     const doesPlayerHaveRoom = await this.#doesPlayerHaveRoom(userId);
@@ -69,7 +79,7 @@ class GameService {
       const userIdOwner = userId;
       const roomId = await this.#generateString(5);
       const newPayload = { ...payload, userIdOwner, roomId };
-      return await gameRepository.create(newPayload);
+      return await roomRepository.create(newPayload);
     }
   }
   async joinRoom(payload) {
@@ -79,7 +89,7 @@ class GameService {
       return doesPlayerHaveRoom;
     } else {
       const options = { where: { roomId } };
-      let [err, isRoomExist] = await gameRepository.findOne(options);
+      let [err, isRoomExist] = await roomRepository.findOne(options);
       const { userIdChallenger, gameStatus } = isRoomExist;
       if (userIdChallenger || !gameStatus) {
         err = "Room is full/done.";
@@ -91,46 +101,63 @@ class GameService {
     }
   }
   async fightRoom(payload) {
+    let err = null;
     const { userId, roomId, playerChoice } = payload;
     const options = { where: { roomId } };
-    let [err, isRoomExist] = await gameRepository.findOne(options);
+    let [errorIsRoomExist, isRoomExist] = await roomRepository.findOne(options);
+    if (errorIsRoomExist) {
+      return errorIsRoomExist;
+    }
     const { userIdOwner, userIdChallenger, gameStatus } = isRoomExist;
-    if (!userIdChallenger) {
-      err = "Please invite your friend in this room";
+    let [errorCountHistoryGame, countHistoryGame] =
+      await fightRepository.countHistory(options);
+    if (countHistoryGame >= 6) {
+      errorCountHistoryGame = "The game is over.";
+      return [errorCountHistoryGame, null];
+    }
+    if (!gameStatus) {
+      err = "The game is over.";
       return [err, null];
-    } else if (!gameStatus) {
-      err = "Fight room is done.";
+    } else if (!userIdChallenger) {
+      err = "Please invite your friend in this room";
       return [err, null];
     } else if (userIdOwner !== userId && userIdChallenger !== userId) {
       err = "It's not your fight room.";
       return [err, null];
     } else {
-      let [err, firstHistoryExist] = await fightRepository.findOne({ options });
-      if (firstHistoryExist) {
-        if (firstHistoryExist.userId === userId) {
-          err = "You can't moved again.";
+      const newOptions = { where: { roomId }, order: [["id", "DESC"]] };
+      let [err, isHistoryExist] = await fightRepository.findOne(newOptions);
+      if (isHistoryExist) {
+        if (isHistoryExist.userId === userId) {
+          err = "You can't moved again, please wait your opponent!";
           return [err, null];
         } else {
-          let [err, secondHistoryExist] = await fightRepository.findOne({
-            where: {
-              userId,
-            },
-          });
-          if (secondHistoryExist.userId === userId) {
-            err = "You can't moved again.";
-            return [err, null];
+          const playerStep = await this.#getPlayerStep(countHistoryGame);
+          let result;
+          let playerScore;
+          if (
+            isHistoryExist.playerStep !==
+            (await this.#getPlayerStep(countHistoryGame))
+          ) {
+            result = null;
+            playerScore = null;
+          } else {
+            result = await this.#fightResult(
+              playerChoice,
+              isHistoryExist.playerChoice
+            );
+            playerScore = await this.#playerScore(result);
+            isHistoryExist.result = await this.#getReverseResult(result);
+            isHistoryExist.playerScore = await this.#playerScore(
+              isHistoryExist.result
+            );
+            await isHistoryExist.save();
           }
-          const result = await this.#fightResult(
-            playerChoice,
-            firstHistoryExist.playerChoice
-          );
-          const playerScore = await this.#playerScore(result);
-          const newPayload = { ...payload, playerStep: 1, result, playerScore };
-          firstHistoryExist.result = await this.#getReverseResult(result);
-          firstHistoryExist.playerScore = await this.#playerScore(
-            firstHistoryExist.result
-          );
-          await firstHistoryExist.save();
+          const newPayload = { ...payload, playerStep, result, playerScore };
+          if (countHistoryGame >= 5) {
+            isRoomExist.gameStatus = false;
+          }
+          await isRoomExist.save();
           return await fightRepository.create(newPayload);
         }
       } else {
@@ -141,4 +168,4 @@ class GameService {
   }
 }
 
-module.exports = GameService;
+module.exports = RoomService;

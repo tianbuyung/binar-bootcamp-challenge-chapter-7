@@ -1,7 +1,7 @@
 const Model = require("../../database/models");
 const { UserGameRoom } = Model;
 
-class GameRoomRepository {
+class RoomRepository {
   async create(options) {
     let err = null;
     try {
@@ -14,7 +14,6 @@ class GameRoomRepository {
   }
   async findAll(options) {
     let err = null;
-    console.log(options);
     try {
       let data = await UserGameRoom.findAll(options);
       if (data) {
@@ -65,4 +64,4 @@ class GameRoomRepository {
   }
 }
 
-module.exports = GameRoomRepository;
+module.exports = RoomRepository;

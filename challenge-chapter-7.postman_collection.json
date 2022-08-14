@@ -1,0 +1,281 @@
+{
+  "info": {
+    "_postman_id": "ded5a1d8-5589-4f16-abb5-896599559d68",
+    "name": "challenge-chapter-7",
+    "description": "This is a project documentation, This project is built to implement Design Pattern (Model-Repository-Service-Controller-Route-View), template engine (express generator), asynchronous and authentication - Challenge Chapter 7",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17172090"
+  },
+  "item": [
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Read All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8000/users?page=1&limit=10",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read All Game Rooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8000/game/view",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["game", "view"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Only user with Admin Role can access this endpoints.",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNDU4MWU3Mi02MGUzLTQzYjYtYTUwYy1iZmRmOTE4MDhmNzYiLCJ1c2VybmFtZSI6ImRhZGlkdSIsImVtYWlsIjoiZGFkaWR1QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2MDQ0Nzk0MiwiZXhwIjoxNjYwNDUxNTQyfQ.LtA4v2l3vlOGsCj7PCahLrtvWpa78ZE1nRiWk7l6ovI",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player",
+      "item": [
+        {
+          "name": "Create Room Game",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"roomName\": \"room5\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8000/game/create",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["game", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Join Room Game",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"roomId\": \"CZ6Ic\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8000/game/join",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["game", "join"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Fight Room Game",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"playerChoice\": \"scissors\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8000/game/fight/CZ6Ic",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["game", "fight", "CZ6Ic"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8000/users/dadidu",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["users", "dadidu"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "All users can access this endpoints.",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNDU4MWU3Mi02MGUzLTQzYjYtYTUwYy1iZmRmOTE4MDhmNzYiLCJ1c2VybmFtZSI6ImRhZGlkdSIsImVtYWlsIjoiZGFkaWR1QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2MDQ1MDQ5OSwiZXhwIjoxNjYwNDU0MDk5fQ.iJvTDz7uBucE9qnQKVogCoz6APHUTbsasx-2qP6gPJk",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Register",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"naninu\",\n    \"email\": \"naninu@gmail.com\",\n    \"password\": \"12345Qw!\",\n    \"confirmPassword\": \"12345Qw!\",\n    \"role\": \"player\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/auth/register",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["auth", "register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"username\": \"dadidu\",\n    \"password\": \"12345Qw!\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8000/auth/login",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "localhost:8000/auth/logout",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["auth", "logout"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
+}

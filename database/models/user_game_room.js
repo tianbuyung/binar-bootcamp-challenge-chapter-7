@@ -11,16 +11,19 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.UserGameRoom.belongsTo(models.UserGame, {
         foreignKey: "user_id_owner",
+        as: "ownerRoom",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
       models.UserGameRoom.belongsTo(models.UserGame, {
         foreignKey: "user_id_challenger",
+        as: "challengerRoom",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
       models.UserGameRoom.hasMany(models.UserGameHistory, {
         foreignKey: "room_id",
+        as: "history",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });

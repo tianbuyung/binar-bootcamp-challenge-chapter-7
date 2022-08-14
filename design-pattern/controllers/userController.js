@@ -19,6 +19,20 @@ class UserController {
       });
     }
   }
+  async getDetailUser(req, res) {
+    const payload = req;
+    let [error, user] = await userService.userFindOne(payload);
+    if (error) {
+      res.status(500).json({
+        message: error,
+      });
+    } else {
+      res.status(200).json({
+        message: "Successfully view user profile",
+        user,
+      });
+    }
+  }
 }
 
 module.exports = UserController;

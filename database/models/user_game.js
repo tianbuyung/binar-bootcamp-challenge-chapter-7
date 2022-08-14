@@ -17,16 +17,19 @@ module.exports = (sequelize, DataTypes) => {
       });
       models.UserGame.hasMany(models.UserGameHistory, {
         foreignKey: "user_id",
+        as: "history",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
       models.UserGame.hasMany(models.UserGameRoom, {
         foreignKey: "user_id_owner",
+        as: "ownerRoom",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
       models.UserGame.hasMany(models.UserGameRoom, {
         foreignKey: "user_id_challenger",
+        as: "challengerRoom",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });

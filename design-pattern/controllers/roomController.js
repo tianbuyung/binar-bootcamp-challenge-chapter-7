@@ -21,6 +21,19 @@ class RoomController {
       });
     }
   }
+  async viewRoom(req, res) {
+    const [err, room] = await roomService.viewRoom();
+    if (err) {
+      res.status(400).json({
+        message: err,
+      });
+    } else {
+      res.status(200).json({
+        message: "Successfully join room and move to fight room, please!",
+        roomId: room,
+      });
+    }
+  }
   async joinRoom(req, res) {
     const { userId } = req.user[1];
     const { roomId } = req.body;

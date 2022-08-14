@@ -2,8 +2,8 @@ const encrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 
-const UserService = require("./userService");
-const userService = new UserService();
+const UserRepository = require("../repositories/userRepository");
+const userRepository = new UserRepository();
 
 const secretKey = process.env.JWT_SECRET_KEY || "Secret_Key";
 
@@ -50,8 +50,15 @@ class AuthService {
         return [err, null];
       } else {
         password = await this.#encrypt(password, 3);
-        let newPayload = { ...payload, password };
-        return await userService.userFindOrCreate(newPayload);
+        const options = {
+          where: {
+            username,
+            email,
+            password,
+            role,
+          },
+        };
+        return await userRepository.findOrCreate(options);
       }
     }
   }
@@ -66,7 +73,7 @@ class AuthService {
       attributes: ["userId", "username", "email", "password", "role"],
       where: { username: username },
     };
-    let [error, isUserFound] = await userService.userFindOne(options);
+    let [error, isUserFound] = await userRepository.findOne(options);
     if (error) {
       error = "User is not found";
       return [error, null];

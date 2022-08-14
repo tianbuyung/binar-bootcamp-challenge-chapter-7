@@ -6,7 +6,8 @@ const { Op } = require("sequelize");
 
 class RoomService {
   async #generateString(digit) {
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
     const charactersLength = characters.length;
     for (let i = 0; i < digit; i++) {
@@ -69,7 +70,9 @@ class RoomService {
     }
     return 1;
   }
-
+  async viewRoom() {
+    return await roomRepository.findAll();
+  }
   async createRoom(payload) {
     const { userId } = payload;
     const doesPlayerHaveRoom = await this.#doesPlayerHaveRoom(userId);

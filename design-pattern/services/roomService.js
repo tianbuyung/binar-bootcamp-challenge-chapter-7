@@ -130,18 +130,18 @@ class RoomService {
     } else {
       const newOptions = { where: { roomId }, order: [["id", "DESC"]] };
       let [err, isHistoryExist] = await fightRepository.findOne(newOptions);
+      const playerStep = await this.#getPlayerStep(countHistoryGame);
       if (isHistoryExist) {
-        if (isHistoryExist.userId === userId) {
+        if (
+          isHistoryExist.userId === userId &&
+          isHistoryExist.playerStep === (playerStep || null)
+        ) {
           err = "You can't moved again, please wait your opponent!";
           return [err, null];
         } else {
-          const playerStep = await this.#getPlayerStep(countHistoryGame);
           let result;
           let playerScore;
-          if (
-            isHistoryExist.playerStep !==
-            (await this.#getPlayerStep(countHistoryGame))
-          ) {
+          if (isHistoryExist.playerStep !== playerStep) {
             result = null;
             playerScore = null;
           } else {

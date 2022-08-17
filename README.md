@@ -6,7 +6,7 @@ This project is built to implement Design Pattern (Model-Repository-Service-Cont
 
 ## Installation
 
-1. Cashier App requires [Node.js v16+](https://nodejs.org/en/), [Postgresql v14+](https://www.postgresql.org/download/), [Sequelize v6](https://sequelize.org/) to run.
+1. This app requires [Node.js v16+](https://nodejs.org/en/), [Postgresql v14+](https://www.postgresql.org/download/), [Sequelize v6](https://sequelize.org/) to run.
 
 2. Clone this repository.
 

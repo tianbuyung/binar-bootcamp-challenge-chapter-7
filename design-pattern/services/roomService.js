@@ -70,6 +70,68 @@ class RoomService {
     }
     return 1;
   }
+  async #randomNumber() {
+    const randomNumber = Math.floor(Math.random() * 2.9);
+    return randomNumber;
+  }
+  async #checkChoice(number) {
+    switch (number) {
+      case 0:
+        return "rock";
+      case 1:
+        return "paper";
+      default:
+        return "scissors";
+    }
+  }
+  async #autoChoice(roomId, userId, playerChoice) {
+    // jumlah datanya ganjil atau genap
+    const options = { where: { roomId } };
+    let [errorCountHistoryGame, countHistoryGame] =
+      await fightRepository.countHistory(options);
+    let [errorIsRoomExist, isRoomExist] = await roomRepository.findOne(options);
+    const { userIdOwner, userIdChallenger } = isRoomExist;
+    console.log(errorCountHistoryGame);
+    console.log(errorIsRoomExist);
+    if (countHistoryGame % 2 !== 0) {
+      let randomUserId = null;
+      if (userId === userIdOwner) {
+        randomUserId = userIdChallenger;
+      } else {
+        randomUserId = userIdOwner;
+      }
+      const number = await this.#randomNumber();
+      const randomChoice = await this.#checkChoice(number);
+      const playerStep = await this.#getPlayerStep(countHistoryGame);
+      const result = await this.#fightResult(randomChoice, playerChoice);
+      console.log(playerChoice, randomChoice, result);
+      const playerScore = await this.#playerScore(result);
+      const newPayload = {
+        roomId,
+        user_id: randomUserId,
+        playerChoice: randomChoice,
+        playerStep,
+        result,
+        playerScore,
+      };
+      console.log(newPayload);
+      const newOptions = { where: { roomId }, order: [["id", "DESC"]] };
+      let [err, isHistoryExist] = await fightRepository.findOne(newOptions);
+      console.log(err);
+      isHistoryExist.result = await this.#getReverseResult(result);
+      isHistoryExist.playerScore = await this.#playerScore(
+        isHistoryExist.result
+      );
+      await isHistoryExist.save();
+      if (countHistoryGame >= 5) {
+        isRoomExist.gameStatus = false;
+      }
+      await isRoomExist.save();
+      return await fightRepository.create(newPayload);
+    } else {
+      console.log("sudah dipilih");
+    }
+  }
   async viewRoom() {
     return await roomRepository.findAll();
   }
@@ -109,7 +171,7 @@ class RoomService {
     const options = { where: { roomId } };
     let [errorIsRoomExist, isRoomExist] = await roomRepository.findOne(options);
     if (errorIsRoomExist) {
-      return errorIsRoomExist;
+      return [errorIsRoomExist, null];
     }
     const { userIdOwner, userIdChallenger, gameStatus } = isRoomExist;
     let [errorCountHistoryGame, countHistoryGame] =
@@ -161,10 +223,20 @@ class RoomService {
             isRoomExist.gameStatus = false;
           }
           await isRoomExist.save();
+          const callAutoChoice = async () => {
+            let result = await this.#autoChoice(roomId, userId, playerChoice);
+            return result;
+          };
+          setTimeout(callAutoChoice, 60000);
           return await fightRepository.create(newPayload);
         }
       } else {
         const newPayload = { ...payload, playerStep: 1 };
+        const callAutoChoice = async () => {
+          let result = await this.#autoChoice(roomId, userId, playerChoice);
+          return result;
+        };
+        setTimeout(callAutoChoice, 60000);
         return await fightRepository.create(newPayload);
       }
     }

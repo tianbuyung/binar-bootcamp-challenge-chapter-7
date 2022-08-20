@@ -1,7 +1,9 @@
 {
   "name": "challenge-chapter-7",
   "version": "0.0.0",
+  "description": "This project is built to implement Design Pattern (Model-Repository-Service-Controller-Route-View), template engine (express generator), asynchronous and authentication - Challenge Chapter 7",
   "private": true,
+  "main": "./bin/www",
   "scripts": {
     "start": "DEBUG=challenge-chapter-7:* node ./bin/www",
     "dev": "DEBUG=challenge-chapter-7:* nodemon ./bin/www"

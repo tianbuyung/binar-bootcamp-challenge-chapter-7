@@ -5,11 +5,11 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
         type: Sequelize.INTEGER,
         unique: true,
       },
       room_id: {
-        primaryKey: true,
         type: Sequelize.STRING,
         unique: true,
       },

@@ -8,7 +8,7 @@ class RoomRepository {
       let created = await UserGameRoom.create(options);
       return [err, created];
     } catch (error) {
-      err = "The room is already exist!";
+      err = error.message;
       return [err, null];
     }
   }
@@ -19,7 +19,6 @@ class RoomRepository {
       if (data) {
         return [err, data];
       } else {
-        err = "The room is not found";
         return [err, null];
       }
     } catch (error) {
@@ -38,7 +37,7 @@ class RoomRepository {
         return [err, null];
       }
     } catch (error) {
-      err = error;
+      err = error.message;
       return [err, null];
     }
   }
